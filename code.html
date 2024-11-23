@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iOS 18 Style Calculator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #222222;
+        }
+        #calculator {
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            width: 320px;
+        }
+        #result {
+            width: 100%;
+            height: 80px;
+            font-size: 40px;
+            color: white;
+            background-color: #000000;
+            border: none;
+            border-radius: 20px;
+            text-align: right;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            outline: none;
+        }
+        .button {
+            width: 70px;
+            height: 70px;
+            font-size: 24px;
+            border: none;
+            border-radius: 50%;
+            margin: 5px;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.2s;
+        }
+        .button:active {
+            opacity: 0.8;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .button-number {
+            background-color: #505050;
+            color: white;
+        }
+        .button-operation {
+            background-color: #f69906;
+            color: white;
+        }
+        .button-utility {
+            background-color: #a6a6a6;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <input type="text" id="result" readonly>
+        <div class="row">
+            <button class="button button-utility" onclick="clearResult()">AC</button>
+            <button class="button button-utility" onclick="toggleSign()">±</button>
+            <button class="button button-utility" onclick="appendToResult('%')">%</button>
+            <button class="button button-operation" onclick="appendToResult('/')">÷</button>
+        </div>
+        <div class="row">
+            <button class="button button-number" onclick="appendToResult('7')">7</button>
+            <button class="button button-number" onclick="appendToResult('8')">8</button>
+            <button class="button button-number" onclick="appendToResult('9')">9</button>
+            <button class="button button-operation" onclick="appendToResult('*')">×</button>
+        </div>
+        <div class="row">
+            <button class="button button-number" onclick="appendToResult('4')">4</button>
+            <button class="button button-number" onclick="appendToResult('5')">5</button>
+            <button class="button button-number" onclick="appendToResult('6')">6</button>
+            <button class="button button-operation" onclick="appendToResult('-')">−</button>
+        </div>
+        <div class="row">
+            <button class="button button-number" onclick="appendToResult('1')">1</button>
+            <button class="button button-number" onclick="appendToResult('2')">2</button>
+            <button class="button button-number" onclick="appendToResult('3')">3</button>
+            <button class="button button-operation" onclick="appendToResult('+')">+</button>
+        </div>
+        <div class="row">
+            <button class="button button-utility" onclick="deleteLast()">DEL</button>
+            <button class="button button-number" onclick="appendToResult('0')">0</button>
+            <button class="button button-number" onclick="appendToResult('.')">.</button>
+            <button class="button button-operation" onclick="calculateResult()">=</button>
+        </div>
+    </div>
+
+    <script>
+        function appendToResult(value) {
+            document.getElementById('result').value += value;
+        }
+
+        function clearResult() {
+            document.getElementById('result').value = '';
+        }
+
+        function toggleSign() {
+            let currentValue = document.getElementById('result').value;
+            if (currentValue) {
+                document.getElementById('result').value = currentValue.startsWith('-') ? currentValue.slice(1) : '-' + currentValue;
+            }
+        }
+
+        function deleteLast() {
+            let currentValue = document.getElementById('result').value;
+            document.getElementById('result').value = currentValue.slice(0, -1);
+        }
+
+        function calculateResult() {
+            try {
+                let result = eval(document.getElementById('result').value);
+                document.getElementById('result').value = result;
+            } catch {
+                document.getElementById('result').value = 'Fehler';
+            }
+        }
+    </script>
+</body>
+</html>
